@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 class PermissionUtils {
 
     companion object {
-        fun requestPermission(activity: Activity, requestCode: Int, permissions: String): Boolean {
+        fun requestPermission(activity: Activity, requestCode: Int, permissions: List<String>): Boolean {
             var granted: Boolean = false;
             var permissionsNeeded: ArrayList<String> = ArrayList();
             for (s in permissions) {
@@ -25,11 +25,13 @@ class PermissionUtils {
             return if (granted) {
                 true
             } else {
-                ActivityCompat.requestPermissions(
-                    activity,
-                    permissionsNeeded.toTypedArray(),
-                    requestCode
-                )
+                if(!permissionsNeeded.isEmpty()) {
+                    ActivityCompat.requestPermissions(
+                        activity,
+                        permissionsNeeded!!.toTypedArray(),
+                        requestCode
+                    )
+                }
                 false
             }
         }
